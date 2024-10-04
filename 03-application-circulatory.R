@@ -102,7 +102,17 @@ CI <- t(CI)
 knitr::kable(CI, digits = 3)
 print(results$point$log_theta, digits = 4)
 
-summ <- summary(results, plot = FALSE, E0 = E0)
+
+# set the scale of x
+E.mode <- c(results$data$B_inner %*% results$point$alpha_w)
+# quantile(E.mode, c(0.0025, 0.9975))
+# x.quantile <- quantile(dat.fit$x, c(0.0025, 0.9975))
+x.ll <- max(min(E.mode), min(dat.fit$x))
+x.ul <- min(max(E.mode), max(dat.fit$x))
+
+E.eval <- seq(x.ll, x.ul, length.out = 500)
+summ <- summary(results, plot = FALSE, E0 = E0, E.eval = E.eval)
+
 
 pw1 <- ggplot(data = summ$est$wl, aes(x = l, y = mode))
 pw1 <- pw1 + geom_line(linewidth = 1.5, color = "#2c7bb6")
@@ -127,7 +137,11 @@ pw_dlnm <- pw1
 
 
 
-pf1 <- ggplot(data = summ$est$fE0, aes(x = E, y = mode))
+# pf1 <- ggplot(data = summ$est$fE0, aes(x = E, y = mode))
+draw.fE <- summ$est$fE0
+draw.fE$ul <- sapply(draw.fE$ul, function(a) min(a, ylimu))
+draw.fE$ll <- sapply(draw.fE$ll, function(a) max(a, yliml))
+pf1 <- ggplot(data = draw.fE, aes(x = E, y = mode))
 pf1 <- pf1 + geom_line(linewidth = 1.5, color = "#2c7bb6")
 pf1 <- pf1 + geom_ribbon(aes(ymax = ul, ymin = ll), alpha = 0.3, fill = "#2c7bb6")
 pf1 <- pf1 + ylab("ACERF") + xlab("Adaptive Cumulative Exposure")
@@ -137,7 +151,8 @@ pf1 <- pf1 + theme(text = element_text(size = GGPLOTTEXTSIZE),
     plot.subtitle=element_text(size=GGPLOTSTSIZE),
     legend.spacing.y = unit(0.3, 'cm') ) + 
     geom_hline(yintercept = 0, linewidth = 1, alpha = 0.7) +
-    ylim(c(yliml, ylimu))
+    ylim(c(yliml, ylimu)) + 
+    xlim(c(x.ll, x.ul))
 pf1 <- pf1 + labs(# title = "  ",
                   subtitle = "ACE-DLNM: f")
 pf_dlnm <- pf1
@@ -454,6 +469,7 @@ p <- ggplot(data = E0_mgcv, aes(x = x, y = fitted)) +
  labs(# title = "  ",
       subtitle = "GAM: f") + 
  ylim(c(yliml,ylimu)) + 
+ xlim(c(x.ll, x.ul)) + 
  geom_hline(yintercept = 0, linewidth = 1, alpha = 0.7) + 
  scale_color_manual(values = colors, name = "Exposure", labels = labels) + 
  scale_fill_manual(values = colors, name = "Exposure", labels = labels)
