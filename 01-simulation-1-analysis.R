@@ -155,7 +155,12 @@ gtsumm <- mutate(gtresults, cvg = as.numeric((ul >= true) & (ll <= true))) %>%
 
 ### TABLES
 library(knitr)
+
+# choose one of them
+wltype. <- "type1"
+wltype. <- "type2"
 wltype. <- "type3"
+
 kable(filter(wlsumm,
        wltype == wltype., fEtype == "cubic") %>% 
         select(Nt, RMSE, cvg.mean, length),
@@ -232,8 +237,6 @@ PLOTWIDTH <- 12
 PLOTHEIGHT <- 9
 
 
-iter.sample <- 1:100
-
 for (wltype. in c("type1", "type2", "type3")) {
   for (fEtype. in c("cubic", "quadratic", "linear")){
     for (Nt. in c(1000, 2000)) {
@@ -254,11 +257,17 @@ for (wltype. in c("type1", "type2", "type3")) {
                       "cubic" = c(-2, 4),
                       "quadratic" = c(-2, 4.5),
                       "linear" = c(-2, 2))
+
       wlresult_draw1 <- filter(wlresults,
-                               Nt == Nt., 
-                               wltype == wltype., 
-                               fEtype == fEtype.,
+                          Nt == Nt., 
+                          wltype == wltype., 
+                          fEtype == fEtype.)
+      
+      iter.sample <- sort(unique(wlresult_draw1$iter))[1:100]
+
+      wlresult_draw1 <- filter(wlresult_draw1,
                                iter %in% iter.sample)
+
       wlresult_draw1_mean <- filter(wlresults,
                                Nt == Nt., 
                                wltype == wltype., 
@@ -344,7 +353,7 @@ for (wltype. in c("type1", "type2", "type3")) {
 
 
 
-### other plots ###########
+### true functions ###########
 
 ## 1. Weight functions
 maxL <- 14

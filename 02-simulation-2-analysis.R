@@ -242,8 +242,7 @@ wlresults <- lapply(datGAM_DLNM, "[[", 1)
 wlresults <- data.table::rbindlist(wlresults)
 
 
-set.seed(123)
-iter.sample <- sample(unique(wlresults$iter), 500)
+iter.sample <- sort(unique(wlresults$iter))[1:100] # the first 100 iters
 wlresult_draw <- filter(wlresults,
                         Nt == 2000,
                         iter %in% iter.sample)
@@ -262,7 +261,7 @@ wlresult_draw_mean <- mutate(wlresult_draw_mean, draw = ifelse(l < (avglag + 1),
 
 
 pw1 <- ggplot(data = wlresult_draw, aes(x = l, y = mode, group = iter, color = draw))
-pw1 <- pw1 + geom_line(aes(color = draw), linewidth = 1.5, alpha = 0.01)
+pw1 <- pw1 + geom_line(aes(color = draw), linewidth = 1.5, alpha = 0.08)
 pw1 <- pw1 + geom_line(data = wlresult_draw_mean, aes(x = l, y = mode, color = draw), inherit.aes = FALSE,
                        linewidth = 2, linetype = "longdash")
 
