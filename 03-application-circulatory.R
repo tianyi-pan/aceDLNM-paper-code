@@ -223,7 +223,7 @@ labels <- c("lag0", "avg lag0-1", "avg lag0-7", "avg lag0-14")
 if(maxL == 14){
 dat.fit.mgcv <- dat.fit
 
-dat.fit.mgcv$avglag01 <- (dat.fit.mgcv$x+ dplyr::lag(dat.fit.mgcv$x, 1))/2
+dat.fit.mgcv$avglag01 <- (dat.fit.mgcv$x+ dplyr::lag(dat.fit.mgcv$x, 1))/sqrt(2)
 
 dat.fit.mgcv$avglag02 <- (dat.fit.mgcv$x + 
                           dplyr::lag(dat.fit.mgcv$x, 1) + 
@@ -233,7 +233,7 @@ dat.fit.mgcv$avglag02 <- (dat.fit.mgcv$x +
                           dplyr::lag(dat.fit.mgcv$x, 5) + 
                           dplyr::lag(dat.fit.mgcv$x, 6) + 
                           dplyr::lag(dat.fit.mgcv$x, 7)
-                          )/8
+                          )/sqrt(8)
 
 
 
@@ -252,7 +252,7 @@ dat.fit.mgcv$avglag03 <- (dat.fit.mgcv$x +
                           dplyr::lag(dat.fit.mgcv$x, 12) + 
                           dplyr::lag(dat.fit.mgcv$x, 13) + 
                           dplyr::lag(dat.fit.mgcv$x, 14)
-                          )/15
+                          )/sqrt(15)
 
 mod.fit.mgcv <- bam(y~s(x, bs = "bs", k = 20) + 
                       s(month.num, bs = "cc", k = 10) + 
