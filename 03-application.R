@@ -858,32 +858,35 @@ pred_low$matfit <- log(pred_low$matRRfit)
 
 
 ##### 4.2 estimated curves from the DRF-DLNM
-pdf(file = file.path("figures/revision", paste0(CD, "-Pulm-DRFDLNM.pdf")), width = 2*PLOTWIDTH, height = PLOTHEIGHT)
-par(mfrow = c(1,3), mar = c(5, 4, 9, 2), oma = c(0, 0, 6, 0))
-plot(pred_high,xlab="\n Exposure",ylab="\n Lag",zlab="\n Rate Ratio", #, zlim = c(-0.06, 0.03), #zlim=range(pred1$matfit),
-     xlim = range(dat.fit$x),
-     zlim = c(exp(yliml), exp(ylimu)),
-     lphi=45,
-     nticks=5,
-     cex.axis=3,cex.lab=3,cex.main = 4.5,
-     main="Upper 95% CI")
+pdf(file = file.path("figures/revision", paste0(CD, "-Pulm-DRFDLNM.pdf")), width = 2*PLOTWIDTH, height = 2*PLOTHEIGHT)
+layout(matrix(c(1, 1, 2, 3), nrow = 2, byrow = TRUE))
+par(mar = c(3.3, 2, 4, 1), oma = c(0, 0, 7, 0))
+
 plot(pred,xlab="\n Exposure",ylab="\n Lag",zlab="\n Rate Ratio", #, zlim = c(-0.06, 0.03), #zlim=range(pred1$matfit),
      xlim = range(dat.fit$x),
      zlim = c(exp(yliml), exp(ylimu)),
      lphi=45,
      nticks=5,
-     cex.axis=3,cex.lab=3,cex.main = 4.5,
+     cex.axis=3,cex.lab=4,cex.main = 5.5,
      main="Point Estimate")
+plot(pred_high,xlab="\n Exposure",ylab="\n Lag",zlab="\n Rate Ratio", #, zlim = c(-0.06, 0.03), #zlim=range(pred1$matfit),
+     xlim = range(dat.fit$x),
+     zlim = c(exp(yliml), exp(ylimu)),
+     lphi=45,
+     nticks=5,
+     cex.axis=3,cex.lab=4,cex.main = 5.5,
+     main="Upper 95% CI")
 plot(pred_low,xlab="\n Exposure",ylab="\n Lag",zlab="\n Rate Ratio", #, zlim = c(-0.06, 0.03), #zlim=range(pred1$matfit),
      xlim = range(dat.fit$x),
      zlim = c(exp(yliml), exp(ylimu)),
      lphi=45,
      nticks=5,
-     cex.axis=3,cex.lab=3,cex.main = 4.5,
+     cex.axis=3,cex.lab=4,cex.main = 5.5,
      main="Lower 95% CI")
 mtext(expression(bold("DRF-DLNM: Exposure-Lag-Response")), 
-      outer = TRUE, cex = 4, line = 1)
+      outer = TRUE, cex = 6, line = 1)
 dev.off()
+
 
 ##### 4.3 Rate ratios from DRF-DLNM
 Q1 <- quantile(dat.fit$x, 0.25)
@@ -1002,6 +1005,17 @@ p.DRFDLNM <- annotate_figure(p.DRFDLNM,
                                             face = "bold", 
                                             size = 2*GGPLOTTEXTSIZE))
 ggsave(p.DRFDLNM, file = file.path("figures/revision", paste0(CD, "-Pulm-DRFDLNM-ind.pdf")), width = 2*PLOTWIDTH, height = 4*PLOTHEIGHT)
+
+
+p.DRFDLNM <- ggarrange(ind.list[[1]]+xlab(" "), ind.list[[2]]+xlab(" ")+ylab(" "), ind.list[[3]]+xlab(" ")+ylab(" "), 
+                ind.list[[5]]+xlab(" "), ind.list[[7]]+xlab(" ")+ylab(" "), ind.list[[9]]+xlab(" ")+ylab(" "), 
+                ind.list[[11]], ind.list[[13]]+ylab(" "), ind.list[[15]]+ylab(" "),  
+                ncol=3, nrow=3)
+p.DRFDLNM <- annotate_figure(p.DRFDLNM,
+                            top = text_grob("DRF-DLNM", 
+                                            face = "bold", 
+                                            size = 2.2*GGPLOTTEXTSIZE))
+ggsave(p.DRFDLNM, file = file.path("figures/revision", paste0(CD, "-Pulm-DRFDLNM-ind-sub.pdf")), width = 2*PLOTWIDTH, height = 2.4*PLOTHEIGHT)
 
 
 
