@@ -11,7 +11,7 @@
 library(tidyverse)
 library(dplyr)
 library(mgcv)
-
+# devtools::install_github("tianyi-pan/aceDLNM")
 library(aceDLNM)
 
 
@@ -330,6 +330,8 @@ mod.fit.avg03.mgcv <- bam(y~s(avglag03, bs = "bs", k = 20) +
                          data = dat.fit.mgcv, 
                          family = nb(),
                          discrete = TRUE)
+
+AIC(mod.fit.mgcv); AIC(mod.fit.avg01.mgcv); AIC(mod.fit.avg02.mgcv); AIC(mod.fit.avg03.mgcv)
 
 ##### other terms from GAMs                     
 summ.mgcv <- summary(mod.fit.mgcv)

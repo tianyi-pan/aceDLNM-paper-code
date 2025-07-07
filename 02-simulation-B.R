@@ -10,6 +10,7 @@
 
 
 ## load packages
+# devtools::install_github("tianyi-pan/aceDLNM")
 library(aceDLNM)
 library(parallel)
 library(mgcv)
