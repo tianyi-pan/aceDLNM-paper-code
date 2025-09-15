@@ -1,6 +1,6 @@
 # Estimating Associations Between Cumulative Exposure and Health via Generalized Distributed Lag Non-Linear Models using Penalized Splines
 
-Source code to replicate the results in the paper *Estimating Associations Between Cumulative Exposure and Health via Generalized Distributed Lag Non-Linear Models using Penalized Splines*
+Source code to replicate the results in the [paper](https://academic.oup.com/biometrics/article/81/3/ujaf116/8253979) *Estimating Associations Between Cumulative Exposure and Health via Generalized Distributed Lag Non-Linear Models using Penalized Splines*
 
 ## Packages
 ### Install the `R` package `aceDLNM` from [GitHub](https://github.com/tianyi-pan/aceDLNM)
